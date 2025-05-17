@@ -22,5 +22,34 @@
     <color name="my_primary">#5E35B1</color>
     <color name="my_secondary">#673AB7</color>
 
+    <!-- Green & Nature-Inspired Colors -->
+    <color name="green_primary">#4CAF50</color>
+    <color name="lime_green">#8BC34A</color>
+    <color name="dark_green">#388E3C</color>
+    <color name="forest_green">#2E7D32</color>
+    <color name="jungle_green">#1B5E20</color>
+
+    <!-- Warm & Earthy Colors -->
+    <color name="bright_orange">#FF9800</color>
+    <color name="deep_orange">#FF5722</color>
+    <color name="rust_red">#D84315</color>
+    <color name="coffee_brown">#795548</color>
+    <color name="wood_brown">#5D4037</color>
+
+    <!-- Cool & Refreshing Colors -->
+    <color name="sky_blue">#03A9F4</color>
+    <color name="ocean_blue">#0288D1</color>
+    <color name="royal_blue">#01579B</color>
+    <color name="aqua_blue">#26C6DA</color>
+    <color name="teal">#00ACC1</color>
+
+    <!-- Neutral & Background Colors -->
+    <color name="soft_white">#F5F5F5</color>
+    <color name="light_grey">#E0E0E0</color>
+    <color name="mid_grey">#9E9E9E</color>
+    <color name="deep_black">#212121</color>
+    <color name="slate_grey">#607D8B</color>
+
+
 
 </resources>

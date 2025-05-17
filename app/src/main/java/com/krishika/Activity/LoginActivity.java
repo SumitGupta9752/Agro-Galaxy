@@ -2,46 +2,87 @@ package com.krishika.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.krishika.R;
 import com.krishika.databinding.ActivityLoginBinding;
+import com.krishika.network.ApiService;
+import com.krishika.network.RetrofitClient;
+import com.krishika.network.models.AuthResponse;
+import com.krishika.network.models.LoginRequest;
 
-public class LoginActivity extends BaseActivity {
- ActivityLoginBinding binding;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class LoginActivity extends AppCompatActivity {
+    private ActivityLoginBinding binding;
+    private CircularProgressIndicator progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_login);
-        setVariable();
+        setContentView(binding.getRoot());
 
+        progress = binding.loginProgress;
 
+        binding.doNotHaveAcc.setOnClickListener(v -> {
+            startActivity(new Intent(this, test.class));
+            finish();
+        });
+
+        binding.loginBtn.setOnClickListener(v -> attemptLogin());
     }
 
-    private void setVariable() {
-        binding.loginBtn.setOnClickListener(v -> {
-            String email = binding.userEdit.getText().toString();
-            String password = binding.passEdit.getText().toString();
-            if(!email.isEmpty() && !password.isEmpty()){
-                mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(LoginActivity.this, task -> {
-                    if(task.isSuccessful()){
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    }else{
-                        Toast.makeText(LoginActivity.this,"Authentication failed",Toast.LENGTH_SHORT).show();
+    private void attemptLogin() {
+        String input = binding.userInput.getText().toString().trim();
+        String password = binding.passInput.getText().toString().trim();
 
-                    }
+        if (input.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                });
-            }   else{
-                Toast.makeText(LoginActivity.this, "Please fill username and password", Toast.LENGTH_SHORT).show();
+        // Determine if input is email or phone
+        String email = null;
+        String phone = null;
+        if (Patterns.EMAIL_ADDRESS.matcher(input).matches()) {
+            email = input;
+        } else {
+            phone = input;
+        }
+
+        progress.setVisibility(View.VISIBLE);
+        ApiService api = RetrofitClient.getApi(this);
+        LoginRequest req = new LoginRequest(email, phone, password);
+        api.login(req).enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                progress.setVisibility(View.GONE);
+                if (response.isSuccessful() && response.body() != null) {
+                    String token = response.body().getToken();
+                    getSharedPreferences("prefs", MODE_PRIVATE)
+                            .edit()
+                            .putString("jwt_token", token)
+                            .apply();
+                    Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(LoginActivity.this, test.class));
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Login failed: " + response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                progress.setVisibility(View.GONE);
+                Toast.makeText(LoginActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

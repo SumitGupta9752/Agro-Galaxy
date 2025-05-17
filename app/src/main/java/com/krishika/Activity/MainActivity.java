@@ -2,11 +2,12 @@ package com.krishika.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
+import android.widget.TextView;
 
 
 import androidx.activity.EdgeToEdge;
@@ -16,9 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -38,7 +41,7 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
-
+    TextView textView;
 
 
     @Override
@@ -48,6 +51,42 @@ public class MainActivity extends BaseActivity {
         binding=ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+        textView =findViewById(R.id.username);
+
+        ImageView sideBar = findViewById(R.id.SideBar); // Find the SideBar ImageView
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user == null) {
+            Log.e("FirebaseAuth", "User not logged in, redirecting to LoginActivity");
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+        String userid = user.getUid();
+        databaseReference.child(userid).child("User Details").child("Primary").child("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String username = snapshot.getValue(String.class);
+                    textView.setText(username);
+                    Log.d("Firebase", "User Name: " + username);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Firebase", "Failed to fetch name: " + error.getMessage());
+            }
+        });
+
+
+
+        sideBar.setOnClickListener(v -> {
+            Log.d("MainActivity", "SideBar clicked");
+            startActivity(new Intent(MainActivity.this, SideBar.class));
+        });
 
 
         initLocation();
@@ -56,6 +95,8 @@ public class MainActivity extends BaseActivity {
         initBestFood();
         initCategory();
         setVariable();
+
+
 
 
     }

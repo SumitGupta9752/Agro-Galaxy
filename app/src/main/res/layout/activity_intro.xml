@@ -7,7 +7,6 @@
     android:background="@drawable/afterget"
     tools:context=".Activity.IntroActivity">
 
-
     <ImageView
         android:id="@+id/imageView69"
         android:layout_width="342dp"
@@ -25,47 +24,68 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/getstrated" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/loginBtn"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="90dp"
-        android:text="Login"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:cornerRadius="30dp"
-        app:backgroundTint="@color/red" />
-
-    <!-- Signup Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/signupBtn"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="90dp"
-        android:layout_alignParentEnd="true"
-        android:text="Signup"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:cornerRadius="30dp"
-        app:backgroundTint="@color/red" />
-
     <TextView
         android:id="@+id/textView39"
         android:layout_width="168dp"
         android:layout_height="126dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="-70dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="-51dp"
-        android:layout_marginBottom="236dp"
-        android:layout_toStartOf="@+id/signupBtn"
-        android:layout_toEndOf="@+id/loginBtn"
+        android:layout_above="@+id/buttonContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
         android:text="Elevate Your\n Farming Experience "
         android:textAlignment="center"
         android:textSize="26dp"
         android:textStyle="bold" />
+
+    <!-- Container for buttons -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="90dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="32dp"
+        android:weightSum="3">
+
+        <!-- Login Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/loginBtn"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Login"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:cornerRadius="30dp"
+            app:backgroundTint="@color/red" />
+
+        <!-- Signup Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signupBtn"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="8dp"
+            android:text="Signup"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:cornerRadius="30dp"
+            app:backgroundTint="@color/red" />
+
+        <!-- Admin Login Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/adminLoginBtn"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="Admin"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:cornerRadius="30dp"
+            app:backgroundTint="@color/red" />
+
+    </LinearLayout>
+
 </RelativeLayout>

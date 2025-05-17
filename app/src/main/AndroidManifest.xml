@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <!-- Permissions required for app functionality -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -10,10 +12,37 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/morep"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/mainicon"
+        android:roundIcon="@drawable/github"
         android:supportsRtl="true"
         android:theme="@style/Theme.Krishika"
         tools:targetApi="31">
+        <activity
+            android:name=".Activity.test"
+            android:exported="true"/>
+        <activity
+            android:name=".Activity.OrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SignupActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.MainActivity"
+            android:exported="true"/>
+             <!-- Launcher Activity: This is the entry point of your app -->
+        <!-- Other application activities -->
+        <!-- Accessible externally if needed -->
+        <activity
+            android:name=".Activity.Location_Delivery"
+            android:exported="true" /> <!-- Internal activities (not exposed to external apps) -->
+        <activity
+            android:name=".Activity.SideBar"
+            android:exported="false" />
         <activity
             android:name=".Activity.PaymentActivity"
             android:exported="false" />
@@ -28,30 +57,13 @@
             android:exported="false" />
         <activity
             android:name=".Activity.ListFoodsActivity"
-            android:exported="false" /> <!-- Declaration of Main Activity -->
-        <activity
-            android:name=".Activity.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- Declaration of Base Activity -->
+            android:exported="false" /> <!-- Additional activities that may be accessed from within or externally -->
         <activity
             android:name=".Activity.BaseActivity"
-            android:exported="true">
-
-        </activity>
-        <!-- Declaration of Intro Activity -->
+            android:exported="true" />
         <activity
             android:name=".Activity.IntroActivity"
-            android:exported="true">
-
-        </activity> <!-- Declaration of Signup Activity -->
-        <activity
-            android:name=".Activity.SignupActivity"
-            android:exported="true" /> <!-- Declaration of Login Activity -->
+            android:exported="true" />
         <activity
             android:name=".Activity.LoginActivity"
             android:exported="true" />

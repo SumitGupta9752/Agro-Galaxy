@@ -29,19 +29,18 @@
 
 
 
-    <EditText
+    <TextView
 
         android:layout_margin="6dp"
 
         android:id="@+id/edit_amount"
 
-        android:inputType="number"
 
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
 
-        android:hint="Enter Amount" />
+        android:hint="Total Amount" />
 
 
 
